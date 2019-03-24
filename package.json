@@ -1,0 +1,32 @@
+{
+  "name": "fullstack2019-osa4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js",
+    "watch": "nodemon index.js",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samlof/fullstack2019-osa4.git"
+  },
+  "author": "Samuli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Samlof/fullstack2019-osa4/issues"
+  },
+  "homepage": "https://github.com/Samlof/fullstack2019-osa4#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.19"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.3",
+    "nodemon": "^1.18.10"
+  }
+}
