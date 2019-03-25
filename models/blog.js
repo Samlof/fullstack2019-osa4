@@ -5,7 +5,11 @@ const blogSchema = mongoose.Schema({
   author: String,
   title: { type: String, required: true },
   url: { type: String, required: true },
-  likes: { type: Number, default: 0 }
+  likes: { type: Number, default: 0 },
+  user: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "User"
+  },
 })
 
 blogSchema.set('toJSON', {
@@ -16,8 +20,4 @@ blogSchema.set('toJSON', {
   }
 })
 
-if (process.env.NODE_ENV === 'test') {
-  module.exports = mongoose.model('Testing_Blog', blogSchema)
-} else {
-  module.exports = mongoose.model('Blog', blogSchema)
-}
+module.exports = mongoose.model('Blog', blogSchema)
