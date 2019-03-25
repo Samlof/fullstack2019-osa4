@@ -18,7 +18,9 @@ blogsRouter.post('/', async (request, response, next) => {
     }
 
     const user = await User.findById(decodedToken.id)
-
+    if (!user) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
     const blog = new Blog(request.body)
     blog.user = user._id
     const result = await blog.save()
@@ -34,8 +36,28 @@ blogsRouter.post('/', async (request, response, next) => {
 
 blogsRouter.delete('/:id', async (request, response, next) => {
   try {
-    await Blog.findByIdAndDelete(request.params.id)
-    response.status(204).end()
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+
+    const user = await User.findById(decodedToken.id)
+
+    const blog = await Blog.findById(request.params.id)
+    if (!blog) return response.status(204).end()
+    if (blog.user.toString() === user.id.toString()) {
+      await Blog.findByIdAndDelete(request.params.id)
+      // Remove blog from user as well, if it exists
+      const blogIndex = user.blogs
+        .findIndex(b => b.id.toString() === request.params.id)
+      if (blogIndex > -1) {
+        user.blogs.splice(blogIndex, 1)
+        user.save()
+      }
+      response.status(204).end()
+    } else {
+      response.status(401).json({ error: "You don't own this blog" })
+    }
   } catch (e) {
     next(e)
   }
