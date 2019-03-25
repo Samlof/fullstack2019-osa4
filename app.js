@@ -11,6 +11,9 @@ const app = express()
 
 logger.info('connecting to', config.MONGODB_URI)
 
+mongoose.set('useFindAndModify', false)
+mongoose.set('useCreateIndex', true)
+
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
   .then(() => {
     logger.info('connected to MongoDB')

@@ -93,9 +93,28 @@ test('a blog with no url is not added', async () => {
     .send(newBlog)
     .expect(400)
 
-  let res = await api.get('/api/blogs')
+  const res = await api.get('/api/blogs')
 
   expect(res.body.length).toBe(helper.initialBlogs.length)
+})
+
+test('delete a blog with valid id', async () => {
+  const initial = await api.get('/api/blogs')
+  await api.delete('/api/blogs/' + initial.body[0].id).expect(204)
+  const after = await api.get('/api/blogs')
+  expect(after.body.length).toBe(initial.body.length - 1)
+})
+
+test('edit a blogs like count', async () => {
+  const initial = await api.get('/api/blogs')
+  const initialBlog = initial.body[0]
+
+  const response = await api.put('/api/blogs/' + initialBlog.id)
+    .send({ likes: initialBlog.likes + 1 })
+    .expect(200)
+
+  const newBlog = response.body
+  expect(newBlog.likes).toBe(initialBlog.likes + 1)
 })
 afterAll(() => {
   mongoose.connection.close()
