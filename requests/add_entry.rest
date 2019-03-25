@@ -1,5 +1,6 @@
 POST http://localhost:3001/api/blogs/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QxIiwiaWQiOiI1Yzk4YzFjMTE4NTgyZTIxMDg2ZGE1YzMiLCJpYXQiOjE1NTM1MTU3ODh9.H6yJviR6HLPSIRQfgvrGJ98A0iHtLptlLGyVUm7eGrg
 
 {   
   "title": "REST uusiksi",
